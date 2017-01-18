@@ -1,0 +1,7 @@
+plugins:
+  recommendation_enable:
+    default: false
+    client: true
+  recommendation_server:
+    default: 'http://10.7.1.57:9000'
+    client: false
