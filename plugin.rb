@@ -59,7 +59,7 @@ after_initialize do
   end
 
   if Pluginprofile::RecommendationMeta.get_env_key===nil
-    register_data=RecommendationServer::Server.post('/activate-plugin', {"mode": "activation"})
+    register_data=RecommendationServer::Server.post('/activate-plugin', {"mode": "activation","env": "#{Rails.env}"})
     Pluginprofile::RecommendationMeta.add_key(register_data['key'].to_s)
     Pluginprofile::RecommendationMeta.set_sync_offset(0)
     Pluginprofile::RecommendationMeta.set_sync_status(false)
