@@ -77,21 +77,23 @@ after_initialize do
       content = ""
       topic_id = params[0].topic_id
       topic = Topic.find(topic_id)
-      posts_count = topic.posts_count
-      for post_index in 1..posts_count
-        post = Post.where(topic_id: topic_id, post_number: post_index)[0]
-        content << post.cooked
+      if topic.user_id != -1
+        posts_count = topic.posts_count
+        for post_index in 1..posts_count
+          post = Post.where(topic_id: topic_id, post_number: post_index)[0]
+          content << post.cooked
+        end
+        key = Pluginprofile::RecommendationMeta.get_env_key()
+        post_data = {
+          "title": topic.title,
+          "category": topic.category_id,
+          "article_id": topic.id,
+          "content": content,
+          "key": key,
+          "env": "#{Rails.env}"
+        }
+        RecommendationServer::Server.post('/publish-post', post_data)
       end
-      key = Pluginprofile::RecommendationMeta.get_env_key()
-      post_data = {
-        "title": topic.title,
-        "category": topic.category_id,
-        "article_id": topic.id,
-        "content": content,
-        "key": key,
-        "env": "#{Rails.env}"
-      }
-      RecommendationServer::Server.post('/publish-post', post_data)
     rescue
       p "No topic with id " + String(topic_id)
     end
