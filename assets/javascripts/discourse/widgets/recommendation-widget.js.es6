@@ -56,7 +56,7 @@ export default createWidget('recommendation-widget', {
     if (!state.similar_topics) {
       this.refreshRecommendations();
     }
-    const result = [h('h2', 'ContextIQ Recommendations')];
+    const result = [h('h2', 'Recommended for you')];
     if (state.loading == true) {
       result.push(h('div.spinner-container', h('div.spinner')));
     } else {
