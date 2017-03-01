@@ -29,6 +29,14 @@ module Pluginprofile
       ::PluginStore.set("recommendation-plugin", "recommendation_syncoffset_#{Rails.env}", offset)
     end
 
+    def self.set_retrial_time (retrial_time)
+      ::PluginStore.set("recommendation-plugin","recommendation_retrial_time_#{Rails.env}",retrial_time)
+    end
+
+    def self.get_retrial_time ()
+      PluginStore.get('recommendation-plugin', "recommendation_retrial_time_#{Rails.env}")
+    end
+
   end
 
   class Config

@@ -63,8 +63,8 @@ after_initialize do
     Pluginprofile::RecommendationMeta.add_key(register_data['key'].to_s)
     Pluginprofile::RecommendationMeta.set_sync_offset(0)
     Pluginprofile::RecommendationMeta.set_sync_status(false)
+    Pluginprofile::RecommendationMeta.set_retrial_time(SiteSetting.daily_retrain_time)
   end
-
   Pluginprofile::Config.create_config_file
 
   Discourse::Application.routes.append do

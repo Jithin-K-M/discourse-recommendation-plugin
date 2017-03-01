@@ -1,3 +1,6 @@
 en:
   site_settings:
     recommendation_enable: "Show recommended topics."
+    recommendation_server: "The server which gives recommendations.SHOULD NOT CHANGE THIS"
+    daily_retrain_time: "The time at which daily sync job has to be triggered , Please set this cron value at a time when site gets lower hits."
+
