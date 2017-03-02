@@ -9,10 +9,10 @@ module RecommenderJobs
 
     def execute(args)
 
-      if SiteSetting.daily_retrain_time != Pluginprofile::RecommendationMeta.get_retrial_time()
-        p "Change detected"
-        RecommendationServer::Server.post('/retrial-period',{"key": Pluginprofile::RecommendationMeta.get_env_key(),"period": SiteSetting.daily_retrain_time})
-        Pluginprofile::RecommendationMeta.set_retrial_time(SiteSetting.daily_retrain_time)
+      if SiteSetting.daily_retrain_time != Pluginprofile::RecommendationMeta.get_resync_time()
+        p "Resync time change detected"
+        RecommendationServer::Server.post('/update-resync-time', {"key": Pluginprofile::RecommendationMeta.get_env_key(), "env": "#{Rails.env}", "time": SiteSetting.daily_retrain_time})
+        Pluginprofile::RecommendationMeta.set_resync_time(SiteSetting.daily_retrain_time)
       end
       
       if Pluginprofile::RecommendationMeta.get_sync_completed
