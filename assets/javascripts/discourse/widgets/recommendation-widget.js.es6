@@ -25,28 +25,35 @@ export default createWidget('recommendation-widget', {
     getCurrentPageJson()
       .then((pageInfo) => {
         var user_id = Discourse.User.currentProp("id");
-        customAjax("/get-similar-articles", "POST", {
-          user_id: user_id !== undefined ? user_id : 1,
-          article_id: pageInfo.id
-        }).then((json) => {
-          getTopic(this, json.similar_articles).then((result) => {
-            this.state.similar_topics = result;
-            customAjax("/recommend-other-users-views", "POST", {
-              user_id: user_id !== undefined ? user_id : 1,
-              article_id: pageInfo.id
-            }).then((json) => {
-              getTopic(this, json.recommendations).then((result) => {
-                this.state.user_recommendations = result;
-                this.state.loading = false;
-                this.scheduleRerender()
+        if (pageInfo.user_id != -1) {
+          customAjax("/get-similar-articles", "POST", {
+            user_id: user_id !== undefined ? user_id : 1,
+            article_id: pageInfo.id
+          }).then((json) => {
+            getTopic(this, json.similar_articles).then((result) => {
+              this.state.similar_topics = result;
+              customAjax("/recommend-other-users-views", "POST", {
+                user_id: user_id !== undefined ? user_id : 1,
+                article_id: pageInfo.id
+              }).then((json) => {
+                getTopic(this, json.recommendations).then((result) => {
+                  this.state.user_recommendations = result;
+                  this.state.loading = false;
+                  this.scheduleRerender()
+                });
+              }, (err) => {
+                handleError(err);
               });
-            }, (err) => {
-              handleError(err);
             });
+          }, (reason) => {
+            handleError(reason);
           });
-        }, (reason) => {
-          handleError(reason);
-        });
+        } else {
+          this.state.similar_topics = [];
+          this.state.user_recommendations = [];
+          this.state.loading = false;
+          this.scheduleRerender()
+        }
       }, (err) => {
         handleError(err);
       });
