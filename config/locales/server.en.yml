@@ -1,3 +1,6 @@
 en:
   site_settings:
     recommendation_enable: "Show recommended topics."
+    recommendation_server: "The server which gives recommendations.SHOULD NOT CHANGE THIS"
+    daily_retrain_time: "The time (24 hour format) at which daily sync job has to be triggered. Format: hh.mm"
+

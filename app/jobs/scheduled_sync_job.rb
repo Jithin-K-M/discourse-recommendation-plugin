@@ -8,6 +8,13 @@ module RecommenderJobs
     every 30.seconds
 
     def execute(args)
+
+      if SiteSetting.daily_retrain_time != Pluginprofile::RecommendationMeta.get_resync_time()
+        p "Resync time change detected"
+        RecommendationServer::Server.post('/update-resync-time', {"key": Pluginprofile::RecommendationMeta.get_env_key(), "env": "#{Rails.env}", "time": SiteSetting.daily_retrain_time})
+        Pluginprofile::RecommendationMeta.set_resync_time(SiteSetting.daily_retrain_time)
+      end
+      
       if Pluginprofile::RecommendationMeta.get_sync_completed
         # p "Sync completed"
       else

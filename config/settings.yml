@@ -3,5 +3,8 @@ plugins:
     default: false
     client: true
   recommendation_server:
-    default: 'http://10.7.1.57:9000'
+    default: 'http://10.7.30.15:9000'
     client: false
+  daily_retrain_time: 
+    client: true
+    default: "12.00"

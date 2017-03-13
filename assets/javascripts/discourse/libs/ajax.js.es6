@@ -1,5 +1,5 @@
 import {pluginData} from 'discourse/plugins/recommendation-plugin/discourse/config/config';
-const serverUrl = "http://10.7.1.57:9000";
+const serverUrl = "http://10.7.30.15:9000";
 
 export function customAjax(api, method, params) {
   var pluginKey = pluginData();

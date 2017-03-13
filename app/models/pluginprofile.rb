@@ -29,6 +29,14 @@ module Pluginprofile
       ::PluginStore.set("recommendation-plugin", "recommendation_syncoffset_#{Rails.env}", offset)
     end
 
+    def self.set_resync_time (resync_time)
+      ::PluginStore.set("recommendation-plugin","recommendation_resynctime_#{Rails.env}",resync_time)
+    end
+
+    def self.get_resync_time ()
+      PluginStore.get('recommendation-plugin', "recommendation_resynctime_#{Rails.env}")
+    end
+
   end
 
   class Config
