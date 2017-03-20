@@ -4,6 +4,8 @@ load File.expand_path('../../../app/models/pluginprofile.rb', __FILE__)
 module RecommenderJobs
   require_dependency "topic"
   require_dependency "post"
+  require 'json'
+
   class SyncTopics < Jobs::Scheduled
     every 30.seconds
 
@@ -48,9 +50,11 @@ module RecommenderJobs
         end
         key = Pluginprofile::RecommendationMeta.get_env_key()
         scalar = {:data => post_data}
-        RecommendationServer::Server.post('/sync-posts', {"scalar": scalar.to_json.to_s, "key": key, "env": "#{Rails.env}"})
-        Pluginprofile::RecommendationMeta.set_sync_offset(next_offset)
-        Pluginprofile::RecommendationMeta.set_sync_status(sync_completed)
+        response = RecommendationServer::Server.post('/sync-posts', {"scalar": scalar.to_json.to_s, "key": key, "env": "#{Rails.env}"})
+        if response[:success] == nil || response[:success]
+          Pluginprofile::RecommendationMeta.set_sync_offset(next_offset)
+          Pluginprofile::RecommendationMeta.set_sync_status(sync_completed)
+        end
       end
     end
 

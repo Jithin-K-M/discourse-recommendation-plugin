@@ -16,8 +16,7 @@ module RecommendationServer
       rescue Exception => e
         puts e.message
         puts e.backtrace.inspect
-        p "Error Occurred"
-        return {}
+        return {'success': false, 'message': e.message}
       end
     end
   end
